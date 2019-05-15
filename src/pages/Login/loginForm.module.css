@@ -1,0 +1,10 @@
+.form {
+  max-width: 300px;
+  margin: 0 auto;
+}
+.formForgot {
+  float: right;
+}
+.formSubmit {
+  width: 100%;
+}

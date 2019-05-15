@@ -1,0 +1,24 @@
+.wapperLayout {
+  height: 100%;
+}
+.header {
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+  padding: 10px 0;
+  font-weight: bold;
+}
+.side {
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+}
+.layoutLeft {
+  margin-left: 200px;
+}
+.headerIcon {
+  color: #fff;
+  float: right;
+  cursor: pointer;
+}
