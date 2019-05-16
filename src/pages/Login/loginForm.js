@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd'
+import { Form, Icon, Input, Button, message } from 'antd'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import actionCreator from '../../actions/actionCreator'
@@ -25,6 +25,7 @@ class LoignForm extends PureComponent {
       })
 
       if (res.data && res.data[0]) {
+        localStorage.setItem('userInfo', JSON.stringify(res.data[0]))
         this.props.setUser(res.data[0])
         this.props.history.push('/')
       } else {
@@ -71,19 +72,11 @@ class LoignForm extends PureComponent {
           }
         </Form.Item>
         <Form.Item>
-          {
-            getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(
-              <Checkbox>Remember me</Checkbox>
-            )
-          }
-          <a className={ styles.formForgot } href='http://baidu.com'>Forgot password</a>
           <Button className={ styles.formSubmit } type="primary" htmlType="submit">
             Log in
           </Button>
           Or <a href='http://baidu.com'>register now!</a>
+          <a className={ styles.formForgot } href='http://baidu.com'>Forgot password</a>
         </Form.Item>
       </Form>
     )

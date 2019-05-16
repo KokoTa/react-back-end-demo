@@ -1,5 +1,6 @@
 import axios from 'axios'
 import config from './config'
+axios.defaults.withCredentials = true
 
 /**
  * 全局工具对象

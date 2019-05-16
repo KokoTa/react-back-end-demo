@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { createStore, compose } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers'
+
 import './index.css';
+
 import Util from './lib/util'
 
 import Wrap from './pages/Wrap'
