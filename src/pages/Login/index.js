@@ -5,10 +5,6 @@ import styles from './index.module.css'
 import LoginForm from './loginForm'
 
 export default class Login extends PureComponent {
-  componentDidMount () {
-    // TODO 这里发送请求
-    console.log(window.Util)
-  }
   render() {
     return (
       <Row className={ styles.row }>

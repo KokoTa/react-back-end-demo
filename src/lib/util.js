@@ -1,4 +1,5 @@
 import axios from 'axios'
+import config from './config'
 
 /**
  * 全局工具对象
@@ -12,7 +13,7 @@ const util = {
     const { type, url, data, dataType } = params
 
     let option = {
-      url,
+      url: config.baseUrl + url,
       method: type || 'get',
       responseType: dataType || 'json'
     }
@@ -22,15 +23,7 @@ const util = {
 
     return new Promise((resolve, reject) => {
       axios(option)
-        .then((res) => {
-          if (res.status === 0) {
-            resolve(res)
-          } else if (res.status === 10) {
-            window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname)
-          } else {
-            reject(res)
-          }
-        })
+        .then((res) => resolve(res))
         .catch((err) => reject(err))
     })
   }

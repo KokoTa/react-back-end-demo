@@ -1,15 +1,50 @@
 import React, { PureComponent } from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import actionCreator from '../../actions/actionCreator'
 import styles from './loginForm.module.css'
 
+/**
+ * 登录表单，混合了路由和状态管理，复习看这个呀，也就够啦！
+ */
 class LoignForm extends PureComponent {
+  componentDidMount () {
+    console.log(this.props)
+  }
+
+  // 登录
+  login = async (value) => {
+    const { request } = window.Util
+
+    try {
+      const res = await request({
+        type: 'post',
+        url: '/login',
+        data: value
+      })
+
+      if (res.data && res.data[0]) {
+        this.props.setUser(res.data[0])
+        this.props.history.push('/')
+      } else {
+        message.error('用户名或密码错误')
+      }
+    } catch (err) {
+      message.error(err.message)
+    }
+  }
+
+  // 提交按钮
   handleSubmit = (e) => {
     e.preventDefault()
     // 执行所有验证器
     this.props.form.validateFields((err, values) => {
-      console.log(err, values)
+      if (err) return
+      this.login(values)
     })
   }
+
   render() {
     // 验证装饰器，点击 handleSubmit 会触发这些装饰器，装饰器用于验证合法性
     const { getFieldDecorator } = this.props.form
@@ -18,8 +53,8 @@ class LoignForm extends PureComponent {
       <Form onSubmit={this.handleSubmit} className={ styles.form }>
         <Form.Item>
           {
-            // 验证装饰器会根据规则进行验证，这里值的名字为 userName
-            getFieldDecorator('userName', {
+            // 验证装饰器会根据规则进行验证，这里值的名字为 username
+            getFieldDecorator('username', {
               rules: [{ required: true, message: '请输入用户名' }]
             })(
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
@@ -57,4 +92,14 @@ class LoignForm extends PureComponent {
 
 const WrapperForm = Form.create({ name: 'user_login' })(LoignForm)
 
-export default WrapperForm
+const mapStateToProps = (state) => ({
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  setUser(userInfo) {
+    dispatch(actionCreator.setUser(userInfo))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WrapperForm))
