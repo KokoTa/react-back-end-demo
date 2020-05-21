@@ -2,9 +2,10 @@ import React, { PureComponent, Fragment } from 'react'
 import { BrowserRouter, Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { Layout, Dropdown, Icon } from 'antd'
 import Cookie from 'js-cookie'
+import Lodable from 'react-loadable'
 
 import Login from '../Login'
-import Home from '../Home'
+// import Home from '../Home'
 
 import SiderMenu from '../../components/SiderMenu'
 import HeaderMenu from '../../components/HeaderMenu'
@@ -12,6 +13,26 @@ import HeaderMenu from '../../components/HeaderMenu'
 import styles from './index.module.css'
 
 const { Header, Footer, Sider, Content } = Layout
+
+const Loading = ({isLoading, error}) => {
+  // Handle the loading state
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  // Handle the error state
+  else if (error) {
+    return <div>Sorry, there was a problem loading the page.</div>;
+  }
+  else {
+    return null;
+  }
+};
+
+// 懒加载
+const LodableHome = Lodable({
+  loader: () => import('../Home'),
+  loading: Loading
+})
 
 // 后台主视图
 class MainContent extends PureComponent {
@@ -44,7 +65,7 @@ class MainContent extends PureComponent {
           </Header>
           <Content>
             <Switch>
-              <Route exact path='/' component={Home}></Route>
+              <Route exact path='/' component={LodableHome}></Route>
               <Route path='/product' render={() => <span>Product</span>}></Route>
               <Route path='/productCategory' render={() => <span>Product</span>}></Route>
             </Switch>
